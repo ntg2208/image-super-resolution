@@ -33,10 +33,10 @@ trainer = Trainer(
     generator=rrdn,
     discriminator=discr,
     feature_extractor=f_ext,
-    lr_train_dir='data/DIV2K_train_LR_x8',
-    hr_train_dir='data/DIV2K_train_HR',
-    lr_valid_dir='data/DIV2K_valid_LR_x8',
-    hr_valid_dir='data/DIV2K_valid_HR',
+    lr_train_dir='/root/Chronobreak/image-super-resolution/data/DIV2K_train_LR_x8',
+    hr_train_dir='/root/Chronobreak/image-super-resolution/data/DIV2K_train_HR',
+    lr_valid_dir='/root/Chronobreak/image-super-resolution/data/DIV2K_valid_LR_x8',
+    hr_valid_dir='/root/Chronobreak/image-super-resolution/data/DIV2K_valid_HR',
     loss_weights=loss_weights,
     learning_rate=learning_rate,
     flatness=flatness,
@@ -47,9 +47,11 @@ trainer = Trainer(
     n_validation=40,
 )
 
-trainer.train(
-    epochs=50,
-    steps_per_epoch=500,
-    batch_size=16,
-    monitored_metrics={'val_PSNR_Y': 'max'}
-)
+# trainer.train(
+#     epochs=2,
+#     steps_per_epoch=2,
+#     batch_size=16,
+#     monitored_metrics={'val_PSNR_Y': 'max'}
+# )
+
+rrdn.model.save_weights('save2.hdf5')
