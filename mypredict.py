@@ -1,13 +1,15 @@
 import numpy as np
 from PIL import Image
 
-img = Image.open('data/input/test_images/sample_image.jpg')
+img = Image.open('data/DIV2K_train_LR_x8/0001x8.png')
 lr_img = np.array(img)
 
-from ISR.models import RDN
+from ISR.models import RRDN
 
-rdn = RDN(arch_params={'C':6, 'D':20, 'G':64, 'G0':64, 'x':2})
-rdn.model.load_weights('')
+rrdn = RRDN(arch_params={'C':4, 'D':3, 'G':64, 'G0':64, 'T':10, 'x':2})
+rrdn.model.load_weights('save2.hdf5')
 
-sr_img = rdn.predict(lr_img)
-Image.fromarray(sr_img)
+sr_img = rrdn.predict(lr_img)
+tmp = Image.fromarray(sr_img)
+
+tmp.save("test2.jpg")
