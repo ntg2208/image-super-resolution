@@ -392,4 +392,6 @@ class Trainer:
                 metrics=monitored_metrics,
             )
             self.tensorboard.on_epoch_end(epoch, validation_losses)
+
+        f_log.close()
         self.tensorboard.on_train_end(None)
