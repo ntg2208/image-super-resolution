@@ -381,9 +381,7 @@ class Trainer:
             for key, val in validation_losses.items():
                 print(key,val)
 
-            f_log.write(f'{validation_losses['val_loss']}, {validation_losses['val_generator_loss']}, 
-                            {validation_losses['val_discriminator_loss']}, {training_losses['train_loss']}, {training_losses['train_generator_loss']}, 
-                            {training_losses['train_discriminator_loss']}')
+            f_log.write(f"{int(time())}, {round(float(validation_losses['val_loss']),2)}, {round(float(validation_losses['val_generator_loss']),2)}, {round(float(validation_losses['val_discriminator_loss']),2)}, {round(float(training_losses['train_loss']),2)}, {round(float(training_losses['train_generator_loss']),2)}, {round(float(training_losses['train_discriminator_loss']),2)}")
             
 
             self.helper.on_epoch_end(
