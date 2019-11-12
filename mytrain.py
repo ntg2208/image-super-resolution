@@ -1,4 +1,4 @@
-from ISR.models import RDN
+from ISR.models import RRDN
 from ISR.models import Discriminator
 from ISR.models import Cut_VGG19
 
@@ -7,7 +7,7 @@ layers_to_extract = [5, 9]
 scale = 2
 hr_train_patch_size = lr_train_patch_size * scale
 
-rdn  = RDN(arch_params={'C':4, 'D':3, 'G':64, 'G0':64, 'x':scale}, patch_size=lr_train_patch_size)
+rrdn  = RRDN(arch_params={'C':4, 'D':3, 'G':64, 'G0':64, 'T':10, 'x':scale}, patch_size=lr_train_patch_size)
 f_ext = Cut_VGG19(patch_size=hr_train_patch_size, layers_to_extract=layers_to_extract)
 discr = Discriminator(patch_size=hr_train_patch_size, kernel_size=3)
 
@@ -30,7 +30,7 @@ learning_rate = {'initial_value': 0.0004, 'decay_factor': 0.5, 'decay_frequency'
 flatness = {'min': 0.0, 'max': 0.15, 'increase': 0.01, 'increase_frequency': 5}
 
 trainer = Trainer(
-    generator=rdn,
+    generator=rrdn,
     discriminator=discr,
     feature_extractor=f_ext,
     lr_train_dir='data/DIV2K_train_LR_x8',
@@ -48,10 +48,10 @@ trainer = Trainer(
 )
 
 trainer.train(
-    epochs=2,
-    steps_per_epoch=2,
-    batch_size=8,
+    epochs=80,
+    steps_per_epoch=500,
+    batch_size=16,
     monitored_metrics={'val_PSNR_Y': 'max'}
 )
 
-rdn.model.save_weights('rrdn_80_500_16_valPSNR_Y.hdf5')
+rrdn.model.save_weights('rrdn_80_500_16_valPSNR_Y.hdf5')
