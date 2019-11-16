@@ -294,9 +294,6 @@ class Trainer:
 
         self.tensorboard = TensorBoard(log_dir=self.helper.callback_paths['logs'])
         self.tensorboard.set_model(self.model)
-        # open log file
-        f_log = open("log.log","w")
-        
 
         # validation data
         validation_set = self.valid_dh.get_validation_set(batch_size)
@@ -376,13 +373,7 @@ class Trainer:
             # should average train metrics
             end_losses = {}
             end_losses.update(validation_losses)
-            end_losses.update(training_losses)
-
-            for key, val in validation_losses.items():
-                print(key,val)
-
-            f_log.write(f"{int(time())}, {round(float(validation_losses['val_loss']),2)}, {round(float(validation_losses['val_generator_loss']),2)}, {round(float(validation_losses['val_discriminator_loss']),2)}, {round(float(training_losses['train_loss']),2)}, {round(float(training_losses['train_generator_loss']),2)}, {round(float(training_losses['train_discriminator_loss']),2)}")
-            
+            end_losses.update(training_losses)            
 
             self.helper.on_epoch_end(
                 epoch=epoch,
@@ -393,5 +384,4 @@ class Trainer:
             )
             self.tensorboard.on_epoch_end(epoch, validation_losses)
 
-        f_log.close()
         self.tensorboard.on_train_end(None)
