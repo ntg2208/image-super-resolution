@@ -50,15 +50,14 @@ trainer = Trainer(
 with open("model.txt","w") as f:
   f.write("RDN model: \n")
   rdn.model.summary(print_fn=lambda x: f.write(x + '\n')) #model summary
-  # f.write(rdn.model.summary())
 
 
-# trainer.train(
-#     epochs=80,
-#     steps_per_epoch=500,
-#     batch_size=16,
-#     monitored_metrics={}
-# )
+trainer.train(
+    epochs=80,
+    steps_per_epoch=500,
+    batch_size=16,
+    monitored_metrics={}
+)
 
 rdn.model.save_weights('../../weight/rdn_x2/ex.hdf5')
 
