@@ -23,7 +23,7 @@ losses = {
   'discriminator': 'binary_crossentropy'
 }
 
-log_dirs = {'logs': './logs', 'weights': './weights'}
+log_dirs = {'logs': './logs', 'weights': './weights/rdn_x2'}
 
 learning_rate = {'initial_value': 0.0004, 'decay_factor': 0.5, 'decay_frequency': 30}
 
@@ -33,10 +33,10 @@ trainer = Trainer(
     generator=rdn,
     discriminator=discr,
     feature_extractor=f_ext,
-    lr_train_dir='../../data/DIV2K/DIV2K_train_LR_bicubic/X2',
-    hr_train_dir='../../data/DIV2K/DIV2K_train_HR',
-    lr_valid_dir='../../data/DIV2K/DIV2K_valid_LR_bicubic/X2',
-    hr_valid_dir='../../data/DIV2K/DIV2K_valid_HR',
+    lr_train_dir='../../../data/DIV2K/DIV2K_train_LR_bicubic/X2',
+    hr_train_dir='../../../data/DIV2K/DIV2K_train_HR',
+    lr_valid_dir='../../../data/DIV2K/DIV2K_valid_LR_bicubic/X2',
+    hr_valid_dir='../../../data/DIV2K/DIV2K_valid_HR',
     loss_weights=loss_weights,
     learning_rate=learning_rate,
     flatness=flatness,
@@ -46,5 +46,20 @@ trainer = Trainer(
     weights_discriminator=None,
     n_validation=40,
 )
+
+with open("model.txt","w") as f:
+  f.write("RDN model: \n")
+  rdn.model.summary(print_fn=lambda x: f.write(x + '\n')) #model summary
+  # f.write(rdn.model.summary())
+
+
+# trainer.train(
+#     epochs=80,
+#     steps_per_epoch=500,
+#     batch_size=16,
+#     monitored_metrics={}
+# )
+
+rdn.model.save_weights('../../weight/rdn_x2/ex.hdf5')
 
 
